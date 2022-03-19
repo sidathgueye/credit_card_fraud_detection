@@ -2,20 +2,18 @@
 title: "Credit Card Fraud Detection"
 author: "Cecile Guillot"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
-# Credit Card Fraud Detection
-
-## 1. Introduction
+# 1. Introduction
 
 This project is a classification project based on data about credit card fraud. The aim is to detect the fraudulent transaction. The dataset is available here: [dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud). In order to realise this project, R was used. At the end of the project, LIME library helps us to have an idea of the feature importances.
 
-## 2. Data Cleaning
+# 2. Data Cleaning
 
 Data are already cleaned and processing. PCA was used in order to hide the personal data related to the different transaction made by European Placeholder. Nevertheless, missing values was evaluated and the first column represented time and it was removed of the processing.
 
-```{r}
+```{r cleaning}
 library(dplyr)
 library(janitor)
 library(naniar)
@@ -30,9 +28,9 @@ creditcard_clean <- creditcard_clean[-c(1)]
 pct_complete(creditcard_clean)
 ```
 
-## 3. Data Analysis
+# 3. Data Analysis
 
-```{r}
+```{r analysis+description}
 library(ggplot2)
  
 data <- read.csv('~/Credit_Card_Fraud_Detection/01_tidy_data/creditcard_clean.csv',
@@ -51,7 +49,7 @@ Data are composed by 30 variables. The last column (v31) contains the label of t
 
 An analysis of the class distribution (fraudulent or not) show an imbalanced between them. More than 99% of the transaction are not fraudulent. 
 
-```{r}
+```{r imbalanced_class}
 barplot(prop.table(table(data$v31)),
         col = rainbow(2),
         main = "Class Distribution")
@@ -59,4 +57,4 @@ barplot(prop.table(table(data$v31)),
 
 Thus, we have to make a specific processing before creating the model.
 
-## 4. Modelisation
+# 4. Modelisation

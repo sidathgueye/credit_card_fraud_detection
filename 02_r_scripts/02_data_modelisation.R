@@ -53,11 +53,13 @@ score <- predict(rf_fit,
                  test,
                  type="prob")[,"yes"]
 print(quantile(score))
+
 liftdata <- data.frame(classe=test$v31)
 liftdata$score <- score
 lift_obj <- lift(classe ~ score, 
                  data=liftdata, 
                  class="yes")
+
 print(lift_obj)
 ggplot2::ggplot(lift_obj)
 

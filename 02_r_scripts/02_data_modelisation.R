@@ -2,7 +2,6 @@
 library(ROSE)
 library(caret)
 library(e1071)
-library(pROC)
 library(lime)
 
 data <- read.csv('~/Credit_Card_Fraud_Detection/01_tidy_data/creditcard_clean.csv',
@@ -50,7 +49,9 @@ matrix <- confusionMatrix(data=rf_pred,
 print(matrix)
 
 # lift curve
-score <- predict(rf_fit,test,type="prob")[,"yes"]
+score <- predict(rf_fit,
+                 test,
+                 type="prob")[,"yes"]
 print(quantile(score))
 liftdata <- data.frame(classe=test$v31)
 liftdata$score <- score
@@ -58,11 +59,24 @@ lift_obj <- lift(classe ~ score,
                  data=liftdata, 
                  class="yes")
 print(lift_obj)
-plot(lift_obj)
+ggplot2::ggplot(lift_obj)
 
-# roc curve
-roc_obj <- roc(test$v31=="yes",score)
-plot(1-roc_obj$specificities,roc_obj$sensitivities,type="l")
-abline(0,1)
-
+# auc score
+roc_obj <- roc(test$v31=="yes",
+               score)
 print(roc_obj$auc)
+
+# calibration curve
+cal_obj <- calibration(classe ~ score,
+                       data = liftdata,
+                       cuts = 13)
+ggplot2::ggplot(cal_obj)
+
+# explanability of the model
+explainer <- lime(rose,
+                  rf_fit)
+explanations <- explain(test[15,],
+                        explainer,
+                        n_labels=1,
+                        n_features=10)
+plot_features(explanations)

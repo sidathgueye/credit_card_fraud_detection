@@ -2,8 +2,8 @@
 title: "Credit Card Fraud Detection"
 author: "Cecile Guillot"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 # 1. Introduction
 

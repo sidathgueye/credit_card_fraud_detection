@@ -1,4 +1,6 @@
 ---
+title: "Credit Card Fraud Detection"
+author: "Cecile Guillot"
 output:
   pdf_document: default
   html_document: default
@@ -40,13 +42,15 @@ data <- as.data.frame(sapply(data, as.numeric))
 
 for (i in 1:ncol(data)){
 print(ggplot(data, aes(x = factor(v31), y=data[ , i])) +
-  geom_boxplot()))}
+  geom_boxplot())
+  Sys.sleep(2)}
 ```
 
 
 Data are composed by 30 variables. The last column (v31) contains the label of the data. For each transaction, 29 variables are available and will be used in the modelising step.
 
 An analysis of the class distribution (fraudulent or not) show an imbalanced between them. More than 99% of the transaction are not fraudulent. 
+
 ```{r}
 barplot(prop.table(table(data$v31)),
         col = rainbow(2),
